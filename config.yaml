@@ -1,56 +1,51 @@
 name: GPT Live Bridge
-version: 1.0.0
+version: "1.0.1"
 slug: gpt_live_bridge
-description: "Full-duplex GPT Live 1 bridge for ESP32-S3 voice assistants. Connects raw PCM audio from ESP32 to Vercel AI Gateway (openai/gpt-live-1). Supports Home Assistant MCP tools for device control."
-stage: experimental
+description: Native GPT Live 1 via Vercel AI Gateway — Full-Duplex Bridge
+url: https://github.com/grosserknallkopf/ha-gpt-live-bridge
 arch:
-  - amd64
   - aarch64
-  - armv7
+  - amd64
+startup: application
+boot: auto
 host_network: true
-hassio_api: true
-homeassistant_api: true
-ports:
-  8090/tcp: 8090
-ports_description:
-  8090/tcp: "WebSocket server for ESP32 PCM audio streaming"
 options:
   vercel_api_key: ""
   ha_url: "http://homeassistant.local:8123"
   ha_token: ""
-  voice: "verse"
   bridge_port: 8090
-  log_level: "info"
+  log_level: info
   model: "openai/gpt-live-1"
+  voice: verse
   instructions: "You are a helpful Home Assistant voice assistant."
-  delegation_model: "openai/gpt-4o-mini"
-  allowed_ha_domains: "light,switch,climate,media_player,scene"
+  delegation_model: "openai/gpt-5.6-sol"
   enable_aec: true
   noise_suppression_level: 3
-schema:
-  vercel_api_key:
-    - str
-  ha_url:
-    - str
-  ha_token:
-    - str
-  voice:
-    - str
-  bridge_port:
-    - int(1024,65535)
-  log_level:
-    - str
-  model:
-    - str
-  instructions:
-    - str
-  delegation_model:
-    - str
   allowed_ha_domains:
-    - str
-  enable_aec:
-    - bool
-  noise_suppression_level:
-    - int(1,5)
-startup: application
-boot: auto
+    - light
+    - switch
+    - climate
+    - media_player
+    - cover
+    - scene
+    - script
+schema:
+  vercel_api_key: password
+  ha_url: str
+  ha_token: password
+  bridge_port: port
+  log_level: list(info|warning|error|debug)
+  model: str
+  voice: list(ash|ballad|chorus|coral|echo|onyx|verse|sage|shimmer|alloy)
+  instructions: str
+  delegation_model: str
+  enable_aec: bool
+  noise_suppression_level: int(1,5)
+  allowed_ha_domains:
+    - light
+    - switch
+    - climate
+    - media_player
+    - cover
+    - scene
+    - script
