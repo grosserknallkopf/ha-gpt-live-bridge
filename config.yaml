@@ -35,28 +35,13 @@ schema:
   ha_token:
     - str
   voice:
-    - select
-    - - alloy
-      - echo
-      - fable
-      - onyx
-      - nova
-      - shimmer
-      - verse
-      - ash
-      - ballad
-      - coral
-      - sage
+    - str
   bridge_port:
     - int
     - min: 1024
       max: 65535
   log_level:
-    - select
-    - - debug
-      - info
-      - warn
-      - error
+    - str
   model:
     - str
   instructions:
