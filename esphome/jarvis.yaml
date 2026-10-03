@@ -1,0 +1,23 @@
+substitutions:
+  name: jarvis
+external_components:
+  - source: github://YOUR_ACCOUNT/ha-gpt-live-bridge
+    components: [gpt_live_client]
+esphome:
+  name: ${name}
+  platformio_options:
+    board_build.esp-idf.memory_type: qio_opi
+wifi:
+  power_save_mode: none
+logger:
+  level: INFO
+psram:
+  mode: octal
+gpt_live_client:
+  id: gpt_live
+  server: ws://HOME_ASSISTANT_IP:8090
+  sample_rate: 16000
+  fallback_pipeline: wake_word
+  enabled: true
+# Keep the existing wake-word/voice-assistant pipeline and mute switch; ensure its
+# switch has restore_mode: RESTORE_DEFAULT_OFF and restart wake-word after pipeline end.

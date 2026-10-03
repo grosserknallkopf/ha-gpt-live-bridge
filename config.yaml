@@ -1,0 +1,29 @@
+name: GPT Live Bridge
+version: "0.1.0"
+slug: gpt_live_bridge
+description: WebSocket bridge between ESPHome PCM audio and GPT Live through Vercel AI Gateway
+aarch64: true
+amd64: true
+armv7: true
+startup: services
+boot: auto
+init: false
+host_network: true
+options:
+  vercel_api_key: ""
+  model: "openai/gpt-live-1"
+  voice: "alloy"
+  instructions: "You are Jarvis, a concise and helpful home assistant."
+  ha_url: "http://homeassistant:8123"
+  ha_token: ""
+schema:
+  vercel_api_key: password
+  model: str
+  voice: str
+  instructions: str
+  ha_url: url
+  ha_token: password
+ports:
+  8090/tcp: 8090
+ports_description:
+  8090/tcp: ESP32 WebSocket PCM endpoint
