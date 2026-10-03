@@ -1,5 +1,5 @@
 name: GPT Live Bridge
-version: "1.0.1"
+version: "1.0.2"
 slug: gpt_live_bridge
 description: Full-duplex GPT Live 1 bridge for ESP32-S3 voice assistants via Vercel AI Gateway
 arch:
@@ -9,10 +9,8 @@ arch:
 startup: application
 boot: auto
 host_network: true
-ports:
-  8090/tcp: 8090
 map:
-  - homeassistant_config:rw
+  - share:rw
 options:
   vercel_api_key: ""
   ha_url: "http://homeassistant.local:8123"
@@ -22,7 +20,7 @@ options:
   log_level: "info"
   model: "openai/gpt-live-1"
   instructions: "You are a helpful Home Assistant voice assistant."
-  delegation_model: "openai/gpt-4o-mini"
+  delegation_model: "zai/glm-5.3-flash"
   allowed_ha_domains: "light,switch,climate,media_player,scene"
   enable_aec: true
   noise_suppression_level: 3
