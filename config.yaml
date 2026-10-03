@@ -37,9 +37,7 @@ schema:
   voice:
     - str
   bridge_port:
-    - int
-    - min: "1024"
-      max: "65535"
+    - int(1024,65535)
   log_level:
     - str
   model:
@@ -53,8 +51,6 @@ schema:
   enable_aec:
     - bool
   noise_suppression_level:
-    - int
-    - min: "1"
-      max: "5"
+    - int(1,5)
 startup: application
 boot: auto
