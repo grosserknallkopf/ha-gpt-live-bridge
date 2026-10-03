@@ -21,6 +21,12 @@ options:
   voice: "verse"
   bridge_port: 8090
   log_level: "info"
+  model: "openai/gpt-live-1"
+  instructions: "You are a helpful Home Assistant voice assistant."
+  delegation_model: "openai/gpt-4o-mini"
+  allowed_ha_domains: "light,switch,climate,media_player,scene"
+  enable_aec: true
+  noise_suppression_level: 3
 schema:
   vercel_api_key:
     - str
@@ -51,5 +57,19 @@ schema:
       - info
       - warn
       - error
+  model:
+    - str
+  instructions:
+    - str
+  delegation_model:
+    - str
+  allowed_ha_domains:
+    - str
+  enable_aec:
+    - bool
+  noise_suppression_level:
+    - int
+    - min: 1
+      max: 5
 startup: application
 boot: auto
