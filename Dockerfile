@@ -1,18 +1,20 @@
 ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base:3.19
 FROM $BUILD_FROM
 
-# Node.js installieren
+# Install Node.js + npm (HA base images are Alpine-based)
 RUN apk add --no-cache nodejs npm
 
 WORKDIR /app
-COPY package.json ./
-COPY server/ ./server/
 
-# run.sh an BEIDEN Orten ablegen (HA-Supervisor ruft teils /run.sh, teils /app/run.sh)
-COPY run.sh /run.sh
-COPY run.sh /app/run.sh
-RUN chmod a+x /run.sh /app/run.sh
+# Copy the whole repo so server/, package.json etc. are all present
+COPY . /app/
 
-EXPOSE 8090
+# npm ci requires package-lock.json which is not committed -> use npm install
+RUN npm install --omit=dev --no-audit --no-fund || npm install --no-audit --no-fund
 
-# Kein ENTRYPOINT/CMD setzen — das HA-Base-Image startet /run.sh selbst
+RUN chmod a+x /app/run.sh && cp /app/run.sh /run.sh && chmod a+x /run.sh
+
+# config.yaml at /app so the build label maps correctly
+# Entrypoint is managed by Home Assistant Supervisor (runs /run.sh)
+
+CMD ["/run.sh"]
