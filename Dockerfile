@@ -6,10 +6,8 @@ WORKDIR /app
 # The HA add-on base image invokes /app/run.sh as its entrypoint.
 RUN apk add --no-cache nodejs npm jq
 
-COPY server/package.json /app/server/package.json
+COPY . /app/
 RUN cd /app/server && npm install --omit=dev
-COPY server/ /app/server/
-COPY run.sh /app/run.sh
-RUN chmod 0755 /app/run.sh
+RUN chmod a+x /app/run.sh
 
 EXPOSE 8090
