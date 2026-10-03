@@ -1,15 +1,15 @@
-FROM node:22-alpine
-
-RUN apk add --no-cache bash
+ARG BUILD_ARCH=amd64
+FROM ghcr.io/home-assistant/${BUILD_ARCH}-base:3.19
 
 WORKDIR /app
 
-COPY server/ /app/
-COPY run.sh /app/run.sh
-RUN chmod +x /app/run.sh
+# The HA add-on base image invokes /app/run.sh as its entrypoint.
+RUN apk add --no-cache nodejs npm jq
 
-RUN npm install --production
+COPY server/package.json /app/server/package.json
+RUN cd /app/server && npm install --omit=dev
+COPY server/ /app/server/
+COPY run.sh /app/run.sh
+RUN chmod 0755 /app/run.sh
 
 EXPOSE 8090
-
-CMD ["/app/run.sh"]
