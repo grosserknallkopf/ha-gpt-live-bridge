@@ -1,6 +1,0 @@
-import {EventEmitter} from "node:events"; import {createOpenAI} from "@ai-sdk/openai";
-export class GPTLiveClient extends EventEmitter { constructor(o){super();this.o=o;this.ws=null;}
- async connect(){if(this.ws)return; const openai=createOpenAI({apiKey:this.o.apiKey,baseURL:"https://ai-gateway.vercel.sh/v1"}); try{this.ws=await openai.experimental_realtime(this.o.model,{api:"live"}); this.ws.on?.("message",x=>this._event(x)); this.ws.on?.("close",()=>{this.ws=null;this.emit("event",{type:"disconnected"})}); this.ws.send?.(JSON.stringify({type:"session-start",session:{voice:this.o.voice,instructions:this.o.instructions,modalities:["audio","text"]}})); this.emit("event",{type:"connected"});}catch(e){this.emit("event",{type:"error",error:e.message});throw e} }
- sendAudio(b){if(!this.ws)return; this.ws.send(JSON.stringify({type:"audio-input",audio:b.toString("base64")}));}
- _event(raw){let e;try{e=JSON.parse(raw.toString())}catch{return} if(e.type==="audio-output"&&e.audio)this.emit("audio",Buffer.from(e.audio,"base64")); if(e.type==="function-call")this.emit("event",e); else this.emit("event",e)}
- async handleControl(m){if(m.type==="function-call-result"&&this.ws)this.ws.send(JSON.stringify(m));} close(){this.ws?.close?.();this.ws=null;}}
