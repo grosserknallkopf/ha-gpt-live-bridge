@@ -1,0 +1,7 @@
+name: gpt_live_client
+version: 1.0.0
+dependencies:
+  - i2s_audio
+  - wifi
+platforms:
+  - esp32

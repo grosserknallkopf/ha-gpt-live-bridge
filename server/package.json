@@ -1,0 +1,1 @@
+{"name":"gpt-live-bridge-server","private":true,"type":"commonjs","dependencies":{"@ai-sdk/openai":"^4.0.67","ws":"^8.18.0","dotenv":"^16.4.0","cjson":"^0.3.0"}}
