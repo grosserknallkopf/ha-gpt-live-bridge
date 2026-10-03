@@ -1,17 +1,16 @@
-ARG BUILD_FROM
-FROM $BUILD_FROM
+ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base-nodejs:latest
+FROM ${BUILD_FROM}
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY package.json package-lock.json* ./
-RUN npm install --omit=dev || npm install
+COPY run.sh /
+COPY package.json /app/package.json
+COPY server /app/server
+COPY src /app/src
 
-COPY server/ ./server/
-COPY src/ ./src/
-COPY custom_components/ ./custom_components/
-COPY esphome/ ./esphome/
+RUN chmod a+x /run.sh \
+    && if [ -f /app/package.json ]; then cd /app && npm install --omit=dev --no-audit --no-fund; fi
 
-COPY run.sh /run.sh
-RUN chmod a+x /run.sh && sed -i -e 's/\r$//' /run.sh
+EXPOSE 8090
 
 CMD ["/run.sh"]
