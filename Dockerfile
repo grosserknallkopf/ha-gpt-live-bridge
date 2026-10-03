@@ -1,13 +1,14 @@
-FROM node:20-alpine
+FROM node:22-alpine
+
+RUN apk add --no-cache bash
 
 WORKDIR /app
 
-COPY server/package.json ./server/package.json
-RUN cd server && npm install --omit=dev
+COPY server/ /app/
+COPY run.sh /app/run.sh
+RUN chmod +x /app/run.sh
 
-COPY server ./server
-COPY run.sh ./run.sh
-RUN chmod +x ./run.sh
+RUN npm install --production
 
 EXPOSE 8090
 

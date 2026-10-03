@@ -1,39 +1,42 @@
+# Home Assistant Add-on: GPT Live Bridge
 name: GPT Live Bridge
-version: "1.0.1"
+version: "1.0.0"
 slug: gpt_live_bridge
-description: GPT Live voice bridge for ESPHome and Home Assistant
+description: >-
+  Full-duplex GPT Live 1 bridge for ESP32-S3 voice assistants.
+  Connects raw PCM audio from ESP32 to Vercel AI Gateway (openai/gpt-live-1).
+  Supports Home Assistant MCP tools for device control.
 arch:
-  - aarch64
   - amd64
+  - aarch64
   - armv7
-startup: services
+startup: application
 boot: auto
 host_network: true
 ports:
   8090/tcp: 8090
 ports_description:
-  8090/tcp: ESP32 WebSocket server
+  8090/tcp: WebSocket server for ESP32 PCM audio streaming
+hassio_api: true
+hassio_role: default
+auth_api: true
+homeassistant_api: true
 options:
   vercel_api_key: ""
-  ha_url: http://homeassistant.local:8123
+  ha_url: "http://homeassistant.local:8123"
   ha_token: ""
-  voice: alloy
-  websocket_port: 8090
-  model: openai/gpt-live-1
-  instructions: You are a helpful Home Assistant voice assistant.
-  delegation_model: openai/gpt-4o-mini
-  enable_aec: true
-  noise_suppression_level: 3
-  allowed_ha_domains: light,switch,climate,media_player,scene
+  voice: "verse"
+  bridge_port: 8090
+  log_level: "info"
 schema:
-  vercel_api_key: password
+  vercel_api_key: str
   ha_url: str
-  ha_token: password
-  voice: list(alloy|ash|ballad|coral|echo|sage|shimmer|verse|marin|cedar)
-  websocket_port: port
-  model: str
-  instructions: str
-  delegation_model: str
-  enable_aec: bool
-  noise_suppression_level: int(1,5)
-  allowed_ha_domains: str
+  ha_token: str
+  voice: list(alloy|echo|fable|onyx|nova|shimmer|verse|ash|ballad|coral|sage)
+  bridge_port: int(1024,65535)
+  log_level: list(debug|info|warn|error)
+image: ghcr.io/grosserknallkopf/ha-gpt-live-bridge/{arch}
+panel_icon: mdi:robot-excited
+panel_title: GPT Live Bridge
+init: false
+stage: experimental
