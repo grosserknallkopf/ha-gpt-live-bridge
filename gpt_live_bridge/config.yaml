@@ -1,0 +1,23 @@
+name: GPT Live Bridge
+version: "1.0.5"
+slug: gpt_live_bridge
+description: GPT Live bridge for ESP32-S3 Jarvis via Vercel AI Gateway
+arch:
+  - amd64
+  - aarch64
+  - armv7
+startup: services
+boot: auto
+ports:
+  8090/tcp: 8090
+host_network: false
+hassio_api: true
+schema:
+  vercel_api_key: str
+  ha_url: str
+  ha_token: str
+  voice: str
+  bridge_port: int
+  log_level: list[info|debug|warning|error]
+  model: str
+  instructions: str
